@@ -9,6 +9,11 @@ public class PouringOut : MonoBehaviour
 
     [SerializeField] private GameObject pourEffect;
 
+    [SerializeField] private float angleToPour = 30;
+
+    [SerializeField] private float speed = 1f;
+
+    [SerializeField] private FluidContainer _fluidContainer;
 
     private Transform pouringObjectTransform;
 
@@ -26,7 +31,7 @@ public class PouringOut : MonoBehaviour
     
     void Update()
     {
-        if (pouring.IsPouring())
+        if (_fluidContainer.CheckWaterLevel(pourPoint.position))
         {
             PourOut();
             return;
@@ -37,6 +42,7 @@ public class PouringOut : MonoBehaviour
 
     private void PourOut()
     {
+        _fluidContainer.Decrease(0.001f);
         if (!currentPourEffect)
             currentPourEffect = Instantiate(pourEffect, pourPoint);
     }

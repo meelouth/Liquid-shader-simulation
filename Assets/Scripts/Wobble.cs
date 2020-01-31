@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Wobble : MonoBehaviour
 {
+
     [SerializeField] private float MaxWobble = 0.03f;
     [SerializeField] private float WobbleSpeed = 1f;
     [SerializeField] private float Recovery = 1f;
@@ -78,6 +79,7 @@ public class Wobble : MonoBehaviour
     {
         wobbleAmountToAddX += Mathf.Clamp((velocity.x + (angularVelocity.z * 0.2f)) * MaxWobble, -MaxWobble, MaxWobble);
         wobbleAmountToAddZ += Mathf.Clamp((velocity.z + (angularVelocity.x * 0.2f)) * MaxWobble, -MaxWobble, MaxWobble);
+
     }
         
     private void KeepLastPosition()
