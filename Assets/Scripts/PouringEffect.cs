@@ -12,12 +12,13 @@ public class PouringEffect : MonoBehaviour
         effectTransform = transform;
         lineRenderer = GetComponent<LineRenderer>();
         
-        SetLineRenderPosition(Vector3.zero);
+     //   SetLineRenderPosition(Vector3.zero);
     }
+    
 
     private void SetLineRenderPosition(Vector3 position)
     {
-        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(0, effectTransform.position);
         lineRenderer.SetPosition(1, position);
     }
     
