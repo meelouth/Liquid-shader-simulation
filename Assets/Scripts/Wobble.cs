@@ -18,12 +18,10 @@ public class Wobble : MonoBehaviour
     float wobbleAmountToAddZ;
     float pulse;
     float time = 0.5f;
-    private MeshRenderer _mesh;
-    
+
     // Use this for initialization
     void Start()
     {
-        _mesh = GetComponent<MeshRenderer>();
         rend = GetComponent<Renderer>();
     }
     private void Update()
@@ -54,10 +52,10 @@ public class Wobble : MonoBehaviour
         // keep last position
         lastPos = transform.position;
         lastRot = transform.rotation.eulerAngles;
-        Debug.Log(_mesh.bounds.max);
-        Debug.Log(_mesh.bounds.min);
-        Debug.Log(_mesh.bounds.max.y - _mesh.bounds.min.y);
-        Debug.Log("Size:"+_mesh.bounds.size);
+        //Debug.Log(_mesh.bounds.max);
+        //Debug.Log(_mesh.bounds.min);
+        //Debug.Log(_mesh.bounds.max.y - _mesh.bounds.min.y);
+//        Debug.Log("Size:"+_mesh.bounds.size);
     }
 
 
