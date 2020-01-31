@@ -5,12 +5,6 @@ using UnityEngine;
 
 public class PouringOut : MonoBehaviour
 {
-    private enum PouringType
-    {
-        Bottleneck,
-        Hole
-    }
-    
     [SerializeField] private Transform pourPoint;
 
     [SerializeField] private GameObject pourEffect;
@@ -22,12 +16,12 @@ public class PouringOut : MonoBehaviour
 
     private IPouring pouring;
 
-    [SerializeField] private PouringType type;
     void Start()
     {
         pouringObjectTransform = transform;
+
+        pouring = GetComponent<IPouring>();
         
-        Initialize();
     }
     
     void Update()
@@ -51,19 +45,4 @@ public class PouringOut : MonoBehaviour
     {
         Destroy(currentPourEffect);
     }
-
-    private void Initialize()
-    {
-        switch (type)
-        {
-            case PouringType.Bottleneck:
-                pouring = gameObject.AddComponent<Bottleneck>();
-                break;
-            case PouringType.Hole:
-                pouring = gameObject.AddComponent<Hole>();
-                break;
-        }
-    }
-    
-    
 }
