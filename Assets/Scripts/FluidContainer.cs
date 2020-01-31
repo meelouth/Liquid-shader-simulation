@@ -8,9 +8,9 @@ public class FluidContainer : MonoBehaviour
     [SerializeField] private GameObject _gameObject;
     [SerializeField] private Renderer _renderer;
     [SerializeField] private MeshRenderer _mesh;
-    [Range(0.0f,1.0f)]
-    [SerializeField] private float _percentFluid;
-
+    [SerializeField] private float _maxLiters;
+    [SerializeField] private float _countLiters;
+    private float _percentFluid;
     public void Start()
     {
         Filling();
@@ -22,10 +22,17 @@ public class FluidContainer : MonoBehaviour
 
     private void Filling()
     {
+        CalculatePercent();
         float height = CalculateHeight();
         float level = height * _percentFluid;
         float middle = height / 2;
         _renderer.material.SetFloat("_FillAmount", middle - level + 0.5f);
+    }
+
+    private float CalculatePercent()
+    { 
+        _percentFluid = _countLiters / _maxLiters;
+        return _percentFluid;
     }
 
     private float CalculateHeight()
@@ -36,35 +43,46 @@ public class FluidContainer : MonoBehaviour
 
     public bool CheckWaterLevel(Vector3 positionBottleneck)
     {
+        CalculatePercent();
         float height = CalculateHeight();
         float level = _mesh.bounds.min.y + height * _percentFluid;
-        return positionBottleneck.y <= level && _gameObject.activeSelf;
+        return positionBottleneck.y <= level && _percentFluid > 0;
     }
 
-    public float GetPercentFluid()
+    public float GetLitersFluid()
     {
-        return _percentFluid;
+        return _countLiters;
     }
 
-    public void Decrease(float percent)
+    public void Decrease(float count)
     {
-        _percentFluid -= percent;
-        if (_percentFluid < 0.001f)
+        float diff = _countLiters - count;
+        if (diff <= 0)
         {
+            _countLiters = 0;
             _gameObject.SetActive(false);
-            _percentFluid = 0;
+        }
+        else
+        {
+            _countLiters = diff;
         }
     }
 
-    public void Increase(float percent)
+    public void Increase(float count)
     {
-        if (_percentFluid <= 0.001f)
+        float sum = _countLiters + count;
+        if (_countLiters <= 0f)
         {
             _gameObject.SetActive(true);
         }
-        
-        _percentFluid += percent;
-        if (_percentFluid > 1)
-            _percentFluid = 1;
+
+        if (sum >= _maxLiters)
+        {
+            _countLiters = _maxLiters;
+        }
+        else
+        {
+            _countLiters = sum;
+        }
     }
 }

@@ -15,17 +15,17 @@ public class PouringOut : MonoBehaviour
 
     [SerializeField] private FluidContainer _fluidContainer;
 
-    private Transform pouringObjectTransform;
+    private Transform _pouringObjectTransform;
 
-    private GameObject currentPourEffect;
+    private PouringEffect _currentPourEffect;
 
-    private IPouring pouring;
+    private IPouring _pouring;
 
     void Start()
     {
-        pouringObjectTransform = transform;
+        _pouringObjectTransform = transform;
 
-        pouring = GetComponent<IPouring>();
+        _pouring = GetComponent<IPouring>();
         
     }
     
@@ -33,22 +33,48 @@ public class PouringOut : MonoBehaviour
     {
         if (_fluidContainer.CheckWaterLevel(pourPoint.position))
         {
-            PourOut();
+            float count = speed;
+            if (speed > _fluidContainer.GetLitersFluid())
+            {
+                count = _fluidContainer.GetLitersFluid();
+            }
+            _fluidContainer.Decrease(count);
+            TransferFluid(PourOut(), count);
             return;
         }
 
         StopPouring();
     }
 
-    private void PourOut()
+    private RaycastHit PourOut()
     {
-        _fluidContainer.Decrease(0.001f);
-        if (!currentPourEffect)
-            currentPourEffect = Instantiate(pourEffect, pourPoint);
+        if (!_currentPourEffect)
+            _currentPourEffect = Instantiate(pourEffect, pourPoint).GetComponent<PouringEffect>();
+        
+        RaycastHit hit;
+        if (Physics.Raycast(pourPoint.position, Vector3.down, out hit, Mathf.Infinity))
+        {
+            Debug.DrawRay(pourPoint.position, Vector3.down * hit.distance, Color.yellow);
+            _currentPourEffect.SetLineRenderPosition(hit.point);
+        }
+
+        return hit;
+    }
+
+    private void TransferFluid(RaycastHit hit, float count)
+    {
+        FluidContainer container = hit.transform.GetComponent<FluidContainer>();
+        if (container != null && container != _fluidContainer)
+        {
+            container.Increase(count);
+        }
     }
 
     private void StopPouring()
     {
-        Destroy(currentPourEffect);
+        if (_currentPourEffect != null)
+        {
+            Destroy(_currentPourEffect.gameObject);
+        }
     }
 }
