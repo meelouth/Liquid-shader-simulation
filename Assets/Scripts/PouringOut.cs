@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class PouringOut : MonoBehaviour
 {
+    private enum PouringType
+    {
+        Bottleneck,
+        Hole
+    }
+    
     [SerializeField] private Transform pourPoint;
 
     [SerializeField] private GameObject pourEffect;
@@ -18,6 +24,10 @@ public class PouringOut : MonoBehaviour
     private Transform pouringObjectTransform;
 
     private GameObject currentPourEffect;
+
+    private IPouring pouring;
+
+    [SerializeField] private PouringType type;
     void Start()
     {
         pouringObjectTransform = transform;
@@ -30,7 +40,7 @@ public class PouringOut : MonoBehaviour
             PourOut();
             return;
         }
-        
+
         StopPouring();
     }
 
@@ -46,8 +56,17 @@ public class PouringOut : MonoBehaviour
         Destroy(currentPourEffect);
     }
 
-    private float CalculateAngle()
+    private void Initialize()
     {
-        return pouringObjectTransform.up.y * Mathf.Rad2Deg;
+        switch (type)
+        {
+            case PouringType.Bottleneck:
+                gameObject.AddComponent<Bottleneck>();
+                break;
+            case PouringType.Hole:
+                gameObject.AddComponent<Hole>();
+                break;
+        }
     }
+    
 }
