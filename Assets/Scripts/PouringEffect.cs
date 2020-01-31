@@ -28,7 +28,6 @@ public class PouringEffect : MonoBehaviour
         if (Physics.Raycast(effectTransform.position, Vector3.down, out hit, Mathf.Infinity))
         {
             Debug.DrawRay(effectTransform.position, Vector3.down * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
             SetLineRenderPosition(hit.point);
         }
     }

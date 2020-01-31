@@ -23,6 +23,6 @@ public class Hole : MonoBehaviour , IPouring
 
     public bool IsPouring()
     {
-        
+        return true;
     }
 }

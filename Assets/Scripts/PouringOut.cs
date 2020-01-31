@@ -26,6 +26,8 @@ public class PouringOut : MonoBehaviour
     void Start()
     {
         pouringObjectTransform = transform;
+        
+        Initialize();
     }
     
     void Update()
@@ -55,12 +57,13 @@ public class PouringOut : MonoBehaviour
         switch (type)
         {
             case PouringType.Bottleneck:
-                gameObject.AddComponent<Bottleneck>();
+                pouring = gameObject.AddComponent<Bottleneck>();
                 break;
             case PouringType.Hole:
-                gameObject.AddComponent<Hole>();
+                pouring = gameObject.AddComponent<Hole>();
                 break;
         }
     }
+    
     
 }
