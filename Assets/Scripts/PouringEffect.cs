@@ -7,6 +7,11 @@ public class PouringEffect : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
 
     [SerializeField] private Transform effectTransform;
+
+    public void SetColor(Color color)
+    {
+        lineRenderer.material.SetColor("_Color", color);
+    }
     
     public void SetLineRenderPosition(Vector3 position)
     {

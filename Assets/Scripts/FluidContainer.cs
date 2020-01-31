@@ -10,9 +10,18 @@ public class FluidContainer : MonoBehaviour
     [SerializeField] private MeshRenderer _mesh;
     [SerializeField] private float _maxLiters;
     [SerializeField] private float _countLiters;
-    private float _percentFluid;
+    [SerializeField] private float _percentFluid;
+    [SerializeField] private Color _color;
     public void Start()
     {
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        if(_countLiters == 0)
+            _gameObject.SetActive(false);
+        SetColor(_color);
         Filling();
     }
     public void Update()
@@ -54,6 +63,17 @@ public class FluidContainer : MonoBehaviour
         return _countLiters;
     }
 
+    public Color GetColor()
+    {
+        return _color;
+    }
+
+    private void SetColor(Color color)
+    {
+        _color = color;
+        _renderer.material.SetColor("_Colour", _color);
+    }
+
     public void Decrease(float count)
     {
         float diff = _countLiters - count;
@@ -68,14 +88,21 @@ public class FluidContainer : MonoBehaviour
         }
     }
 
-    public void Increase(float count)
+    private Color CalculateColor(Color color, float count)
+    {
+        Color newColor = (color * count + _color * (_countLiters - count)) / _countLiters;
+        return newColor;
+    }
+
+    public void Increase(float count, Color color)
     {
         float sum = _countLiters + count;
         if (_countLiters <= 0f)
         {
+            SetColor(color);
             _gameObject.SetActive(true);
         }
-
+        
         if (sum >= _maxLiters)
         {
             _countLiters = _maxLiters;
@@ -83,6 +110,11 @@ public class FluidContainer : MonoBehaviour
         else
         {
             _countLiters = sum;
+        }
+
+        if (_countLiters - count > 0)
+        {
+            SetColor(CalculateColor(color, count));
         }
     }
 }

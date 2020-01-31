@@ -55,6 +55,7 @@ public class PouringOut : MonoBehaviour
         if (Physics.Raycast(pourPoint.position, Vector3.down, out hit, Mathf.Infinity))
         {
             Debug.DrawRay(pourPoint.position, Vector3.down * hit.distance, Color.yellow);
+            _currentPourEffect.SetColor(_fluidContainer.GetColor());
             _currentPourEffect.SetLineRenderPosition(hit.point);
         }
 
@@ -66,7 +67,7 @@ public class PouringOut : MonoBehaviour
         FluidContainer container = hit.transform.GetComponent<FluidContainer>();
         if (container != null && container != _fluidContainer)
         {
-            container.Increase(count);
+            container.Increase(count, _fluidContainer.GetColor());
         }
     }
 

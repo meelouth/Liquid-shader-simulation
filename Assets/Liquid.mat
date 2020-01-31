@@ -79,7 +79,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.28773582, g: 0.44571862, b: 1, a: 0.26666668}
-    - _Colour: {r: 0.28627455, g: 0.41861525, b: 1, a: 0.5254902}
+    - _Colour: {r: 0.28627455, g: 0.41861525, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 0.30980396, g: 0.5513602, b: 1, a: 1}
     - _GravityDirection: {r: 0, g: -1, b: 0, a: 0}
